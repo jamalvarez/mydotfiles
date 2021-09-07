@@ -1,5 +1,3 @@
-
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'othree/yajs.vim'
@@ -22,10 +20,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
-
 " Important!!
 if has('termguicolors')
-    set termguicolors
+  set termguicolors
 endif
 " The configuration options should be placed before `colorscheme edge`.
 let g:edge_style = 'aura'
@@ -34,9 +31,8 @@ colorscheme edge
 
 set number " activate numbers in gutter
 set relativenumber " activate relative numbers in gutter
-
-
 set tabstop=2 shiftwidth=2 expandtab " use two spaces instead of longer tabs
+
 " Remappings
 map <Space> <Leader>
 
@@ -47,7 +43,9 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>w :w<CR>
+:imap jj <Esc>
 
+inoremap <Leader><Tab> <Tab>
 " NERDTree remappings
 
 let NERDTreeMapActivateNode='a'
@@ -61,7 +59,6 @@ let g:fzf_action = {
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
-
 set visualbell t_vb=
 set tm=500
 
