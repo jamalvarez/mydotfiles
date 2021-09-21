@@ -1,3 +1,5 @@
+
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'othree/yajs.vim'
@@ -18,8 +20,15 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'sainnhe/edge'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-call plug#end()
+Plug 'machakann/vim-highlightedyank'
+Plug 'dyng/ctrlsf.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'haya14busa/incsearch.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tommcdo/vim-fugitive-blame-ext'
 
+call plug#end()
 " Important!!
 if has('termguicolors')
   set termguicolors
@@ -32,7 +41,10 @@ colorscheme edge
 set number " activate numbers in gutter
 set relativenumber " activate relative numbers in gutter
 set tabstop=2 shiftwidth=2 expandtab " use two spaces instead of longer tabs
-
+set noswapfile
+set nowrap
+set scrolloff=8
+set nohls
 " Remappings
 map <Space> <Leader>
 
@@ -46,15 +58,29 @@ nnoremap <leader>w :w<CR>
 :imap jj <Esc>
 
 inoremap <Leader><Tab> <Tab>
+" incsearch mappings
+" replace forward and backard search
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+
+" ctrlsf mappings
+"
+nmap <leader>fw <Plug>CtrlSFPrompt
+
+
 " NERDTree remappings
 
 let NERDTreeMapActivateNode='a'
 
 " fzf.vim rempappings
-nnoremap <leader>f :GFiles<CR>
+nnoremap <leader>ff :GFiles<CR>
 let g:fzf_action = { 
     \ 'enter': 'vsplit'
     \}
+"fugitive mappings
+
+nnoremap <leader>s :Git blame<CR>
+
 
 " No annoying sound on errors
 set noerrorbells
@@ -64,7 +90,6 @@ set tm=500
 
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-
 
 " CoC extensions
 let g:coc_global_extensions = ['coc-tsserver']
