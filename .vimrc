@@ -1,12 +1,9 @@
-
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
 Plug 'arcticicestudio/nord-vim'
-Plug 'https://github.com/joshdick/onedark.vim.git'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'leafgarland/typescript-vim' "typescript highlighting 
@@ -27,16 +24,20 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tommcdo/vim-fugitive-blame-ext'
-
 call plug#end()
 " Important!!
 if has('termguicolors')
   set termguicolors
 endif
-" The configuration options should be placed before `colorscheme edge`.
-let g:edge_style = 'aura'
-let g:edge_disable_italic_comment = 1
-colorscheme edge
+"Edge configuration(if using edge): The configuration options should be placed before `colorscheme edge`.
+ let g:edge_style = 'aura'
+ let g:edge_disable_italic_comment = 1
+
+" OneDark.nvim configuration(if using onedark): same as other configs, before
+" colorescheme
+
+syntax on
+colorscheme onedark
 
 set number " activate numbers in gutter
 set relativenumber " activate relative numbers in gutter
@@ -53,6 +54,9 @@ nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
+map <C-l> :tabn<CR>
+map <C-h> :tabp<CR>
+map <C-n> :tabnew<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>w :w<CR>
 :imap jj <Esc>
@@ -93,3 +97,9 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 
 " CoC extensions
 let g:coc_global_extensions = ['coc-tsserver']
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+
