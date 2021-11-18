@@ -28,6 +28,8 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 "END of LSP autocomplete
+
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 " Important!!
 if has('termguicolors')
@@ -48,6 +50,7 @@ set noswapfile
 set nowrap
 set scrolloff=8
 set nohls
+set wildignore=*/node_modules/*
 " Remappings
 map <Space> <Leader>
 
@@ -81,10 +84,10 @@ nnoremap <leader>t :Vexplore<CR>
 
 "telescope mappings Using Lua functions
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>s :Git blame<CR>
+
+" mapping to go to definition of a symbol
+nnoremap <leader>gd <cmd>lua vim.lsp.buf.definition()<cr>
 
 "mappings to allow for moving lines and blocks up and down
 
@@ -107,12 +110,41 @@ let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \}
 
-" let g:coq_settings = { "keymap.jump_to_mark":"<c-\>", 'auto_start': 'shut-up' }
 let g:ale_fix_on_save = 1
 lua << EOF
+-- typescript checking
  require'lspconfig'.tsserver.setup{}
+
+ -- fucking magic
  require'hop'.setup()
+ -- telescope arguments, eg: ignoring files inside .gitignore
+ require'telescope'.setup{defaults={vimgrep_arguments={'--ignore-file', '.gitignore'}}}
+
 EOF
+
+
+
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+
+end
+EOF
+
 
 " Autocomplete LSP settings
 set completeopt=menu,menuone,noselect
