@@ -30,6 +30,10 @@ Plug 'hrsh7th/vim-vsnip'
 "END of LSP autocomplete
 
 Plug 'airblade/vim-gitgutter'
+
+
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/trouble.nvim'
 call plug#end()
 " Important!!
 if has('termguicolors')
@@ -47,7 +51,7 @@ set number " activate numbers in gutter
 set relativenumber " activate relative numbers in gutter
 set tabstop=2 shiftwidth=2 expandtab " use two spaces instead of longer tabs
 set noswapfile
-set nowrap
+"set nowrap
 set scrolloff=8
 set nohls
 set wildignore=*/node_modules/*
@@ -66,6 +70,14 @@ nnoremap <leader>w :w<CR>
 " Fucking Magic I tell you
 nnoremap <leader>gg :HopWord<CR>
 :imap jj <Esc>
+
+" do a grep for current word under cursor in all folders of the current
+" diretory
+:nnoremap gr :vimgrep <cword> *<CR>
+
+" mapping to add tsc error otput to quickfixlist
+nnoremap <leader>qf :cexpr system('tsc')<CR>
+
 
 " incsearch mappings
 " replace forward and backard search
@@ -88,6 +100,7 @@ nnoremap <leader>s :Git blame<CR>
 
 " mapping to go to definition of a symbol
 nnoremap <leader>gd <cmd>lua vim.lsp.buf.definition()<cr>
+nnoremap <leader>gr <cmd>lua vim.lsp.buf.references()<cr>
 
 "mappings to allow for moving lines and blocks up and down
 
@@ -123,6 +136,13 @@ lua << EOF
 EOF
 
 
+lua << EOF
+  require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
 
 
 lua << EOF
