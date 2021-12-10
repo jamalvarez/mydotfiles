@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+Plug 'peitalin/vim-jsx-typescript' " typescript and tsx syntax
 Plug 'leafgarland/typescript-vim' "typescript highlighting
 Plug 'machakann/vim-highlightedyank' " highlight text when yanking
 Plug 'vim-airline/vim-airline' "pretty bottom bar
@@ -13,6 +14,7 @@ Plug 'nvim-telescope/telescope.nvim' " file finder
 Plug 'neovim/nvim-lspconfig' "language server
 Plug 'dense-analysis/ale' "prettier and linting
 Plug 'mhartington/oceanic-next' " alright theme
+Plug 'ful1e5/onedark.nvim'
 Plug 'jiangmiao/auto-pairs' "autocompletion of brackets
 
 Plug 'phaazon/hop.nvim' " FUCKING MAGIC I'M TELLING YOU
@@ -34,6 +36,9 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
+
+Plug 'mhinz/vim-grepper'
+
 call plug#end()
 " Important!!
 if has('termguicolors')
@@ -41,11 +46,15 @@ if has('termguicolors')
 endif
 
 syntax on
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
 set cursorline
-colorscheme OceanicNext
+colorscheme onedark
 let g:airline_theme='oceanicnext'
+
+" VimScript for onedark
+let g:onedark_comment_style = "NONE"
+let g:onedark_keyword_style = "NONE"
+let g:onedark_function_style = "NONE"
+let g:onedark_variable_style = "NONE"
 
 set number " activate numbers in gutter
 set relativenumber " activate relative numbers in gutter
@@ -78,17 +87,22 @@ nnoremap <leader>gg :HopWord<CR>
 " mapping to add tsc error otput to quickfixlist
 nnoremap <leader>qf :cexpr system('tsc')<CR>
 
+nnoremap <leader>qfe :cexpr system('npm run eslint')<CR>
 
 " incsearch mappings
 " replace forward and backard search
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 
+" not sure if I like sending mouse commands
+set mouse=nv
 
+" netrw configurations
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 1
+let g:netrw_browse_split = 3
 let g:netrw_altv = 1
+let g:netrw_list_hide = 'node_modules'
 let g:netrw_winsize = 25
 
 " netrw mappings
@@ -100,6 +114,7 @@ nnoremap <leader>s :Git blame<CR>
 
 " mapping to go to definition of a symbol
 nnoremap <leader>gd <cmd>lua vim.lsp.buf.definition()<cr>
+" mapping to go to references that call a symbol
 nnoremap <leader>gr <cmd>lua vim.lsp.buf.references()<cr>
 
 "mappings to allow for moving lines and blocks up and down
@@ -122,6 +137,10 @@ let g:ale_fixers = {
 \   '*': ['prettier', 'remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
 \}
+
+
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 let g:ale_fix_on_save = 1
 lua << EOF
