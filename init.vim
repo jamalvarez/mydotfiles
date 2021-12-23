@@ -37,7 +37,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
 
-Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-grepper' " grepper to find a word between files on a project
+
+Plug 'evanleck/vim-svelte', {'branch': 'main'} "vim-svelte to allow syntax highlighting for svelte
 
 call plug#end()
 " Important!!
@@ -94,9 +96,6 @@ nnoremap <leader>qfe :cexpr system('npm run eslint')<CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 
-" not sure if I like sending mouse commands
-set mouse=nv
-
 " netrw configurations
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
@@ -150,7 +149,7 @@ lua << EOF
  -- fucking magic
  require'hop'.setup()
  -- telescope arguments, eg: ignoring files inside .gitignore
- require'telescope'.setup{defaults={vimgrep_arguments={'--ignore-file', '.gitignore'}}}
+ require'telescope'.setup{defaults={vimgrep_arguments={'--ignore-file', '.gitignore'},file_ignore_patterns={'node_modules'}}}
 
 EOF
 
