@@ -41,6 +41,8 @@ Plug 'mhinz/vim-grepper' " grepper to find a word between files on a project
 
 Plug 'evanleck/vim-svelte', {'branch': 'main'} "vim-svelte to allow syntax highlighting for svelte
 
+ " graphql highlighting
+Plug 'jparise/vim-graphql'
 call plug#end()
 " Important!!
 if has('termguicolors')
@@ -135,6 +137,7 @@ set tm=500
 let g:ale_fixers = {
 \   '*': ['prettier', 'remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
+\   'svelte': ['prettier', 'eslint', 'stylelint']
 \}
 
 
