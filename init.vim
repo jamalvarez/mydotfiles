@@ -24,9 +24,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
 
-Plug 'mhinz/vim-grepper' " grepper to find a word between files on a project
+Plug 'dyng/ctrlsf.vim'  " find words in project
 
- " graphql highlighting
+
+"graphql highlighting
 Plug 'jparise/vim-graphql'
 
 Plug 'evanleck/vim-svelte', {'branch': 'main'} "vim-svelte to allow syntax highlighting for svelte
@@ -123,6 +124,10 @@ set novisualbell
 set visualbell t_vb=
 set tm=500
 
+" ctrlsf word search variables
+let g:ctrlsf_case_sensitive = 'no'
+let g:ctrlsf_default_root = 'project'
+let g:ctrlsf_populate_qflist = 1
 
 let g:ale_fixers = {
 \   '*': ['prettier', 'remove_trailing_lines', 'trim_whitespace'],
