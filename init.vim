@@ -12,6 +12,7 @@ Plug 'tommcdo/vim-fugitive-blame-ext' " git blame line by line on a new buffer
 Plug 'nvim-lua/plenary.nvim' " file finder dependency
 Plug 'nvim-telescope/telescope.nvim' " file finder
 Plug 'neovim/nvim-lspconfig' "language server
+Plug 'williamboman/nvim-lsp-installer' " language servers installer seems to be amazing stuff
 Plug 'dense-analysis/ale' "prettier and linting
 Plug 'mhartington/oceanic-next' " alright theme
 Plug 'ful1e5/onedark.nvim'
@@ -40,6 +41,8 @@ if has('termguicolors')
   set termguicolors
 endif
 
+" https://sw.kovidgoyal.net/kitty/faq/#using-a-color-theme-with-a-background-color-does-not-work-well-in-vim
+let &t_ut=''
 syntax on
 set cursorline
 colorscheme onedark
@@ -73,6 +76,7 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>w :w<CR>
 " Fucking Magic I tell you
 nnoremap <leader>gg :HopWord<CR>
+nnoremap <leader>gf :HopChar1<CR>
 :imap jj <Esc>
 
 " do a grep for current word under cursor in all folders of the current
@@ -158,6 +162,27 @@ lua << EOF
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   }
+EOF
+
+
+lua << EOF
+local lsp_installer = require("nvim-lsp-installer")
+
+-- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
+-- or if the server is already installed).
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+
+    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+    -- before passing it onwards to lspconfig.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
 EOF
 
 
